@@ -18,5 +18,5 @@
 </script>
 
 <a href="#health_card">
-	<img alt="Nutri-Score" {src} class="transition-all duration-75 hover:brightness-90" />
+	<img alt="Nutri-Score" {src} loading="lazy" class="transition-all duration-75 hover:brightness-90" />
 </a>

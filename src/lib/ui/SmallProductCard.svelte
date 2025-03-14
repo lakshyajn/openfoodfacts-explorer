@@ -22,7 +22,7 @@
 				<img
 					src={product.image_front_small_url}
 					class="h-16 rounded-lg object-cover"
-					alt="Product front"
+					alt="Product front" loading="lazy"
 				/>
 			{/if}
 		</div>

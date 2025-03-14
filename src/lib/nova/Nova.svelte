@@ -15,5 +15,5 @@
 </script>
 
 <a href="#nova">
-	<img alt="Nova Score" {src} class="transition-all duration-75 hover:brightness-90" />
+	<img alt="Nova Score" {src} loading="lazy" class="transition-all duration-75 hover:brightness-90" />
 </a>

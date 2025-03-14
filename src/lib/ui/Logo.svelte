@@ -5,6 +5,6 @@
 	/>
 	<img
 		src="https://static.openfoodfacts.org/images/logos/off-logo-horizontal-light.svg"
-		alt="OpenFoodFacts Explorer"
+		alt="OpenFoodFacts Explorer" loading="lazy"
 	/>
 </picture>

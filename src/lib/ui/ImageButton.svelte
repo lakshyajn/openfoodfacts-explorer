@@ -11,5 +11,5 @@
 <ImageModal bind:this={modal} />
 
 <button class="flex max-w-full justify-center" {onclick}>
-	<img {src} {alt} class="float-right h-full rounded-lg" />
+	<img {src} {alt} loading="lazy" class="float-right h-full rounded-lg" />
 </button>

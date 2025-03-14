@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { t } from '$lib/translations';
 	import type { PageData } from './$types';
+	import { onMount } from 'svelte';
 
 	import Card from '$lib/ui/Card.svelte';
 	import Logo from '$lib/ui/Logo.svelte';
@@ -11,12 +12,20 @@
 	}
 
 	let { data }: Props = $props();
+	let products = [];
+
+	onMount(async () => {
+		try {
+			products = await data.streamed.products;
+		} catch (error) {
+			console.error('Error fetching products:', error);
+		}
+	});
 </script>
 
 <svelte:head>
 	<!-- Preconnect to static assets -->
 	<link rel="preconnect" href="https://images.openfoodfacts.org" crossorigin="anonymous" />
-
 	<title>Open Food Facts Explorer</title>
 </svelte:head>
 
@@ -38,15 +47,15 @@
 
 	<div class="mt-8 w-full">
 		<div class="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
-			{#await data.streamed.products}
+			{#if products.length === 0}
 				{#each [...Array(4).keys()] as i (i)}
 					<div class="skeleton dark:bg-base-300 h-28 bg-white p-4 shadow-md"></div>
 				{/each}
-			{:then products}
+			{:else}
 				{#each products as state (state.product.code)}
 					<SmallProductCard product={state.product} />
 				{/each}
-			{/await}
+			{/if}
 		</div>
 	</div>
 </div>

@@ -101,7 +101,7 @@
 		/>
 		<img
 			src="https://static.openfoodfacts.org/images/logos/off-logo-horizontal-mono-black.svg"
-			alt="Open Food Facts"
+			alt="Open Food Facts" loading="lazy"
 		/>
 	</picture>
 

@@ -42,7 +42,7 @@
 	onclick={self(() => close())}
 >
 	<div bind:this={container}>
-		<img class="max-h-full max-w-full" src={image?.url} alt={image?.alt} />
+		<img class="max-h-full max-w-full" src={image?.url} alt={image?.alt} loading="lazy" />
 	</div>
 </dialog>
 
