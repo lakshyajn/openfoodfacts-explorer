@@ -21,20 +21,19 @@
 	let { children }: Props = $props();
 
 	onMount(() => {
-		// Defer non-critical JavaScript execution
-		requestIdleCallback(() => {
-			injectSpeedInsights({
-				dsn: "", 
-				beforeSend: (event) => {
-					// Only send events for production
-					if (window.location.hostname === 'localhost') {
-						return null;
-					}
-					return event;
-				},
-			});
-		});
-	});
+  setTimeout(() => {
+    injectSpeedInsights({
+      dsn: "", 
+      beforeSend: (event) => {
+        // Only send events for production
+        if (window.location.hostname === 'localhost') {
+          return null;
+        }
+        return event;
+      },
+    });
+  }, 0);
+});
 
 	function updateSearchQuery(url: URL) {
 		searchQuery = url.searchParams.get('q') ?? '';

@@ -126,13 +126,18 @@ export default defineConfig({
 	},
 	optimizeDeps: {
 		include: [
-			'svelte', 
-			'svelte/internal', 
-			'svelte/store',
-			'@vercel/speed-insights/sveltekit'
+		  'svelte', 
+		  'svelte/internal', 
+		  'svelte/store',
+		  '@vercel/speed-insights/sveltekit'
 		],
-		exclude: ['big-libraries-not-needed-immediately']
-	},
+		exclude: ['big-libraries-not-needed-immediately'],
+		esbuildOptions: {
+		  target: 'es2020',
+		  minify: true,
+		  treeShaking: true
+		}
+	  },
 	css: {
 		postcss: {
 			map: false 

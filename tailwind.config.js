@@ -9,7 +9,7 @@ export default {
 			}
 		}
 	},
-	plugins: [],
+	plugins: [ addDynamicIconSelectors()],
 	daisyui: {
 		themes: [
 			{
