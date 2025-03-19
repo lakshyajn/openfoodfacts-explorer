@@ -28,6 +28,11 @@ export default {
 			}
 		]
 	},
+
+	safelist: [
+		'btn', 'btn-secondary', 'btn-outline', 'container',
+		'navbar', 'navbar-start', 'navbar-center', 'navbar-end'
+	],
 	experimental: {
 		optimizeUniversalDefaults: true
 	},

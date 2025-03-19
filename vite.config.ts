@@ -16,7 +16,7 @@ export default defineConfig({
 		sveltekit(),
 		imagetools({
 			defaultDirectives: new URLSearchParams([
-				['format', 'webp;avif;jpg'], // Multiple output formats with a preference order
+				['format', 'webp;avif'], // Prioritize modern formats
 				['quality', '80'],
 				['width', '320;640;960'],
 				['withoutEnlargement', '']
@@ -94,19 +94,49 @@ export default defineConfig({
 		terserOptions: {
 			compress: {
 				drop_console: true,
-				ecma: 2020
+				ecma: 2020,
+				passes: 2
+			},
+			mangle: {
+				safari10: false
 			}
 		},
 		rollupOptions: {
 			output: {
-				manualChunks: {
-					'vendor': ['svelte'],
-					'translations': ['$lib/translations']
-				}
+				manualChunks: (id) => {
+					//efficient chunks based on common imports
+					if (id.includes('node_modules/svelte')) {
+						return 'vendor-svelte';
+					}
+					if (id.includes('node_modules')) {
+						return 'vendor';
+					}
+					if (id.includes('translations')) {
+						return 'translations';
+					}
+					if (id.includes('/lib/ui/')) {
+						return 'ui-components';
+					}
+				},
+				entryFileNames: 'entries/[name]-[hash].js',
+				chunkFileNames: 'chunks/[name]-[hash].js',
+				assetFileNames: 'assets/[name]-[hash].[ext]'
 			}
 		}
 	},
 	optimizeDeps: {
-		include: ['svelte', 'svelte/internal', 'svelte/store']
+		include: [
+			'svelte', 
+			'svelte/internal', 
+			'svelte/store',
+			'@vercel/speed-insights/sveltekit'
+		],
+		exclude: ['big-libraries-not-needed-immediately']
+	},
+	css: {
+		postcss: {
+			map: false 
+		},
+		devSourcemap: false
 	}
 });

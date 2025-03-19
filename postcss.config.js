@@ -1,6 +1,8 @@
 export default {
 	plugins: {
-		'@tailwindcss/postcss': {},
+		'@tailwindcss/postcss': {
+			...(process.env.NODE_ENV === 'production' ? { purge: true } : {})
+		},
 		'cssnano': {
 			preset: ['advanced', {
 				discardComments: {
@@ -8,8 +10,18 @@ export default {
 				},
 				reduceIdents: false,
 				zindex: false,
+				cssDeclarationSorter: true,
+				normalizeWhitespace: true,
+				minifyFontValues: true
 			}]
 		},
-		'autoprefixer': {}
+		'autoprefixer': {
+			overrideBrowserslist: [
+				'> 1%',
+				'last 2 versions',
+				'not ie <= 11',
+				'not op_mini all'
+			]
+		}
 	}
 };

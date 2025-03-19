@@ -4,17 +4,32 @@ import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
 	// Consult https://kit.svelte.dev/docs/integrations#preprocessors
-	// for more information about preprocessors
-	preprocess: vitePreprocess(),
+	preprocess: vitePreprocess({
+		// Enhanced preprocessing settings
+		postcss: true,
+		// Optimize style processing
+		scss: {
+			prependData: '@import "src/styles/variables.scss";'
+		},
+		// Better minification for embedded styles
+		style: ({ content }) => {
+			return {
+				code: content
+					.replace(/\s{2,}/g, ' ')
+					.replace(/\n/g, '')
+					.trim()
+			};
+		}
+	}),
 
 	kit: {
 		// adapter-auto only supports some environments, see https://kit.svelte.dev/docs/adapter-auto for a list.
 		// If your environment is not supported or you settled on a specific environment, switch out the adapter.
 		// See https://kit.svelte.dev/docs/adapters for more information about adapters.
 		adapter: adapter({
-			// Optimize for edge runtime for faster global performance
+			//optimize for edge runtime
 			runtime: 'edge',
-			regions: ['iad1', 'fra1', 'syd1'], // Multiple regions for global edge coverage
+			regions: ['iad1', 'fra1', 'syd1'], //optional
 		}),
 		csp: {
 			directives: {
@@ -32,7 +47,19 @@ const config = {
 		version: {
 			name: Date.now().toString()
 		},
-		inlineStyleThreshold: 4096 // Inline critical CSS under 4kb
+		inlineStyleThreshold: 8192, 
+		
+		//asset optimization
+		files: {
+			assets: 'static'
+		},
+		
+		prerender: {
+			handleHttpError: ({ path, referrer, message }) => {
+				console.warn(`Warning: ${path} referred from ${referrer} failed to prerender: ${message}`);
+				return;
+			}
+		}
 	}
 };
 

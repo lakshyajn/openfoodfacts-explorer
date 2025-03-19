@@ -21,18 +21,19 @@
 	let { children }: Props = $props();
 
 	onMount(() => {
-		setTimeout(() => {
-		injectSpeedInsights({
-			dsn: "", 
-			beforeSend: (event) => {
-				// Only send events for production
-				if (window.location.hostname === 'localhost') {
-					return null;
-				}
-				return event;
-			},
+		// Defer non-critical JavaScript execution
+		requestIdleCallback(() => {
+			injectSpeedInsights({
+				dsn: "", 
+				beforeSend: (event) => {
+					// Only send events for production
+					if (window.location.hostname === 'localhost') {
+						return null;
+					}
+					return event;
+				},
+			});
 		});
-	}, 1000);
 	});
 
 	function updateSearchQuery(url: URL) {
@@ -57,8 +58,24 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<link rel="preconnect" href="https://images.openfoodfacts.org" crossorigin="anonymous" />
 	<link rel="preconnect" href="https://static.openfoodfacts.org" crossorigin="anonymous" />
+	<!-- Inline critical CSS -->
+	<style>
+		/* Critical CSS for above-the-fold content */
+		.navbar { display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 1rem; }
+		@media (max-width: 768px) { .navbar { padding: 0.25rem 0.5rem; } }
+		.navbar-start, .navbar-end, .navbar-center { display: flex; align-items: center; }
+		@media (max-width: 768px) { .md\\:flex { display: none; } }
+		.container { width: 100%; margin-left: auto; margin-right: auto; padding: 0 1rem; }
+		.btn { display: inline-flex; align-items: center; justify-content: center; border-radius: 0.5rem; padding: 0.5rem 1rem; font-weight: 500; }
+		.btn-secondary { background-color: var(--color-secondary); color: var(--color-secondary-content); }
+		.input { padding: 0.5rem; border-radius: 0.5rem; border: 1px solid #ccc; }
+		.join { display: flex; }
+		.join-item:not(:first-child) { border-top-left-radius: 0; border-bottom-left-radius: 0; }
+		.join-item:not(:last-child) { border-top-right-radius: 0; border-bottom-right-radius: 0; }
+	</style>
 </svelte:head>
 
+<!-- Rest of the component remains the same -->
 <div class="navbar hidden md:flex">
 	<div class="navbar-start">
 		<a href="/"> <Logo /> </a>

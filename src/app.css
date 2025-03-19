@@ -44,12 +44,29 @@ button, a {
     --color-base-100: #201a17;
     --color-base-200: #2d2724;
     --color-base-300: #3a332f;
-    --radius-selector: 1rem;
-    --radius-field: 0.5rem;
-    --radius-box: 0.5rem;
   }
 }
 
 .non-critical {
   content-visibility: auto;
+}
+
+.lazy-image {
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.lazy-image.loaded {
+  opacity: 1;
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  
+  body {
+    background: white !important;
+    color: black !important;
+  }
 }

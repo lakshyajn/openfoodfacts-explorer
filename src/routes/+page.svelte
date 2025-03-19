@@ -18,6 +18,7 @@
 
 	onMount(async () => {
 		try {
+			// Use requestIdleCallback for non-critical operations
 			if ('requestIdleCallback' in window) {
 				requestIdleCallback(async () => {
 					products = await data.streamed.products;
@@ -37,11 +38,14 @@
 </script>
 
 <svelte:head>
-	<!-- Preconnect to static assets -->
+	<!-- Preload critical assets -->
 	<link rel="preconnect" href="https://images.openfoodfacts.org" crossorigin="anonymous" />
-	<link rel="preload" as="image" href="https://static.openfoodfacts.org/images/logos/off-logo-horizontal-light.svg" />
-	<link rel="preload" as="image" href="https://static.openfoodfacts.org/images/logos/off-logo-horizontal-dark.svg" media="(prefers-color-scheme: dark)" />
+	<link rel="preload" as="image" href="https://static.openfoodfacts.org/images/logos/off-logo-horizontal-light.svg" fetchpriority="high" />
+	<link rel="preload" as="image" href="https://static.openfoodfacts.org/images/logos/off-logo-horizontal-dark.svg" media="(prefers-color-scheme: dark)" fetchpriority="high" />
 	<title>Open Food Facts Explorer</title>
+	
+	<!-- Preload critical fonts if any -->
+	<!-- <link rel="preload" as="font" href="/fonts/your-critical-font.woff2" type="font/woff2" crossorigin="anonymous" /> -->
 </svelte:head>
 
 <div class="mx-auto my-4 flex flex-col items-center md:container xl:max-w-6xl">
@@ -63,8 +67,9 @@
 	<div class="mt-8 w-full">
 		<div class="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
 			{#if loadingContent}
+				<!-- Reserve space for loading content to prevent layout shifts -->
 				{#each [...Array(4).keys()] as i (i)}
-					<div class="skeleton dark:bg-base-300 h-28 bg-white p-4 shadow-md"></div>
+					<div class="skeleton dark:bg-base-300 h-28 bg-white p-4 shadow-md" style="min-height: 112px; min-width: 100%;"></div>
 				{/each}
 			{:else}
 				{#each products as state (state.product.code)}
