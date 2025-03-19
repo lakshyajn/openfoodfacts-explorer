@@ -3,7 +3,11 @@ export default {
 	content: ['./src/**/*.{html,js,svelte,ts}'],
 	mode: "jit",
 	theme: {
-		extend: {}
+		extend: {
+			screens: {
+				'xs': '475px',
+			}
+		}
 	},
 	plugins: [],
 	daisyui: {
@@ -23,5 +27,11 @@ export default {
 				}
 			}
 		]
+	},
+	experimental: {
+		optimizeUniversalDefaults: true
+	},
+	future: {
+		hoverOnlyWhenSupported: true
 	}
 };

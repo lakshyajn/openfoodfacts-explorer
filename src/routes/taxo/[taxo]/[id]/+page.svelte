@@ -14,9 +14,6 @@
 	let category = $derived(data.taxonomyElement);
 	let taxonomy = $derived(data.taxonomy);
 
-	run(() => {
-		console.debug('category', category);
-	});
 </script>
 
 <h1 class="text-xl sm:text-4xl">

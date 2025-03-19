@@ -30,7 +30,7 @@
 </script>
 
 <div
-	class="bg-secondary text-secondary-content mt-10 flex flex-col justify-between gap-5 px-10 py-8 md:flex-row md:px-20 lg:px-40"
+	class="bg-secondary text-secondary-content mt-10 flex flex-col justify-between gap-5 px-10 py-8 md:flex-row md:px-20 lg:px-40 off-screen-content"
 >
 	<div class="flex flex-col gap-1">
 		<div class="text-lg font-bold">Join the community</div>

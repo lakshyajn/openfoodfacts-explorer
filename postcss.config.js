@@ -1,5 +1,15 @@
 export default {
 	plugins: {
-		'@tailwindcss/postcss': {}
+		'@tailwindcss/postcss': {},
+		'cssnano': {
+			preset: ['advanced', {
+				discardComments: {
+					removeAll: true,
+				},
+				reduceIdents: false,
+				zindex: false,
+			}]
+		},
+		'autoprefixer': {}
 	}
 };

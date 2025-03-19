@@ -23,8 +23,18 @@
 	let { children }: Props = $props();
 
 	onMount(() => {
-		// only inject the script on the client side
-		injectSpeedInsights();
+		setTimeout(() => {
+		injectSpeedInsights({
+			dsn: "", 
+			beforeSend: (event) => {
+				// Only send events for production
+				if (window.location.hostname === 'localhost') {
+					return null;
+				}
+				return event;
+			},
+		});
+	}, 1000);
 	});
 
 	function updateSearchQuery(url: URL) {
@@ -45,8 +55,10 @@
 
 <svelte:head>
 	<title>OFF Explorer</title>
-	<meta name="description" content="Open Food Facts Explorer" />
+	<meta name="description" content="Open Food Facts Explorer - Discover food products information worldwide" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<link rel="preconnect" href="https://images.openfoodfacts.org" crossorigin="anonymous" />
+	<link rel="preconnect" href="https://static.openfoodfacts.org" crossorigin="anonymous" />
 </svelte:head>
 
 <div class="navbar hidden md:flex">

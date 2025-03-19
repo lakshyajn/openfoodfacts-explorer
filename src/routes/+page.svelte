@@ -13,12 +13,25 @@
 
 	let { data }: Props = $props();
 	let products = [];
+	
+	let loadingContent = true;
 
 	onMount(async () => {
 		try {
-			products = await data.streamed.products;
+			if ('requestIdleCallback' in window) {
+				requestIdleCallback(async () => {
+					products = await data.streamed.products;
+					loadingContent = false;
+				});
+			} else {
+				setTimeout(async () => {
+					products = await data.streamed.products;
+					loadingContent = false;
+				}, 200);
+			}
 		} catch (error) {
 			console.error('Error fetching products:', error);
+			loadingContent = false;
 		}
 	});
 </script>
@@ -26,19 +39,21 @@
 <svelte:head>
 	<!-- Preconnect to static assets -->
 	<link rel="preconnect" href="https://images.openfoodfacts.org" crossorigin="anonymous" />
+	<link rel="preload" as="image" href="https://static.openfoodfacts.org/images/logos/off-logo-horizontal-light.svg" />
+	<link rel="preload" as="image" href="https://static.openfoodfacts.org/images/logos/off-logo-horizontal-dark.svg" media="(prefers-color-scheme: dark)" />
 	<title>Open Food Facts Explorer</title>
 </svelte:head>
 
 <div class="mx-auto my-4 flex flex-col items-center md:container xl:max-w-6xl">
 	<Card>
 		<div class="card-body items-center text-center">
-			<h3 class="card-title mb-4 block text-2xl md:flex">
+			<h1 class="card-title mb-4 block text-2xl md:flex">
 				{$t('home.welcome')}
 				<div class="block xl:inline-block">
 					<Logo />
 				</div>
 				Explorer!
-			</h3>
+			</h1>
 			<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 			<p>{@html $t('home.intro_1')}</p>
 			<p>{$t('home.intro_2')}</p>
@@ -47,7 +62,7 @@
 
 	<div class="mt-8 w-full">
 		<div class="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
-			{#if products.length === 0}
+			{#if loadingContent}
 				{#each [...Array(4).keys()] as i (i)}
 					<div class="skeleton dark:bg-base-300 h-28 bg-white p-4 shadow-md"></div>
 				{/each}

@@ -9,7 +9,7 @@
 	let { product }: Props = $props();
 </script>
 
-<a
+
 	href={`/products/${product.code}`}
 	class="btn btn-ghost text-primary dark:bg-base-300 pointer-events-none h-auto justify-normal rounded-2xl bg-white p-4 text-start shadow-md"
 	class:pointer-events-none={navigating.to}
@@ -22,7 +22,12 @@
 				<img
 					src={product.image_front_small_url}
 					class="h-16 rounded-lg object-cover"
-					alt="Product front" loading="lazy"
+					alt="Product front" 
+					loading="lazy"
+					width="64" 
+					height="64"
+					fetchpriority="low"
+					decoding="async"
 				/>
 			{/if}
 		</div>

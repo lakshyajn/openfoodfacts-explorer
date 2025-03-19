@@ -1,42 +1,55 @@
-@import 'tailwindcss';
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
 
-@plugin 'daisyui';
-@plugin "@tailwindcss/typography";
-@plugin "@iconify/tailwind4";
-
-@config '../tailwind.config.js';
-
-@plugin "daisyui/theme" {
-	name: 'light';
-	default: true;
-	--color-primary: #201a17;
-	--color-primary-content: #faf7f5;
-	--color-secondary: #52443d;
-	--color-secondary-content: #faf7f5;
-	--color-base-100: #faf7f5;
-	--color-base-200: #f3f0ee;
-	--color-base-300: #ebe8e6;
-
-	/* border radius */
-	--radius-selector: 1rem;
-	--radius-field: 1rem;
-	--radius-box: 0.5rem;
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
-@plugin "daisyui/theme" {
-	name: 'dark';
-	prefersdark: true;
+button, a {
+  padding: min(0.5em, 0.5rem);
+  min-height: 44px;
+  min-width: 44px;
+}
 
-	--color-primary: #faf7f5;
-	--color-primary-content: #201a17;
-	--color-secondary: #ebc3a8;
-	--color-secondary-content: #201a17;
-	--color-base-100: #201a17;
-	--color-base-200: #2d2724;
-	--color-base-300: #3a332f;
+.off-screen-content {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 500px; 
+}
 
-	/* border radius */
-	--radius-selector: 1rem;
-	--radius-field: 0.5rem;
-	--radius-box: 0.5rem;
+:root {
+  --color-primary: #201a17;
+  --color-primary-content: #faf7f5;
+  --color-secondary: #52443d;
+  --color-secondary-content: #faf7f5;
+  --color-base-100: #faf7f5;
+  --color-base-200: #f3f0ee;
+  --color-base-300: #ebe8e6;
+  --radius-selector: 1rem;
+  --radius-field: 1rem;
+  --radius-box: 0.5rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-primary: #faf7f5;
+    --color-primary-content: #201a17;
+    --color-secondary: #ebc3a8;
+    --color-secondary-content: #201a17;
+    --color-base-100: #201a17;
+    --color-base-200: #2d2724;
+    --color-base-300: #3a332f;
+    --radius-selector: 1rem;
+    --radius-field: 0.5rem;
+    --radius-box: 0.5rem;
+  }
+}
+
+.non-critical {
+  content-visibility: auto;
 }
